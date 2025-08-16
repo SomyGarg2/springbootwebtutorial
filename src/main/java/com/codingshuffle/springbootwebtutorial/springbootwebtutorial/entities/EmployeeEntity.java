@@ -1,5 +1,6 @@
 package com.codingshuffle.springbootwebtutorial.springbootwebtutorial.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,6 +30,15 @@ public class EmployeeEntity {
 
     private LocalDate dateOfJoining;
 
+    @JsonProperty("isActive")
     private Boolean isActive;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
 }
