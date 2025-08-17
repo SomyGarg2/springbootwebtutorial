@@ -2,6 +2,7 @@ package com.codingshuffle.springbootwebtutorial.springbootwebtutorial.controller
 
 import com.codingshuffle.springbootwebtutorial.springbootwebtutorial.dto.EmployeeDTO;
 import com.codingshuffle.springbootwebtutorial.springbootwebtutorial.entities.EmployeeEntity;
+import com.codingshuffle.springbootwebtutorial.springbootwebtutorial.exceptions.ResourceNotFoundException;
 import com.codingshuffle.springbootwebtutorial.springbootwebtutorial.repositories.EmployeeRepository;
 import com.codingshuffle.springbootwebtutorial.springbootwebtutorial.services.EmployeeService;
 import jakarta.validation.Valid;
@@ -10,10 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping(path = "/employees")
@@ -39,8 +37,9 @@ public class EmployeeController {
       Optional<EmployeeDTO> employeeDTO = employeeService.getEmployeeById(id);
       return employeeDTO
               .map(employeeDTO1 -> ResponseEntity.ok(employeeDTO1)).
-              orElse(ResponseEntity.notFound().build());
+              orElseThrow(() -> new ResourceNotFoundException("Employee not found with id :" + id));
     }
+
 
     @GetMapping
     public ResponseEntity<List<EmployeeDTO>> getAllEmployees(
